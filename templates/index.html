@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>demo</title>
+
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div
+			class="flex flex-col h-screen bg-white justify-center items-center"
+		>
+			<h1 class="text-4xl font-bold mb-10">
+				Text to speech for the hearing impaired
+			</h1>
+			<div class="flex gap-4">
+				<a
+					class="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+					href="/webcam"
+				>
+					Proceed to webcam
+				</a>
+				<a
+					class="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+					href="/saved"
+				>
+					Proceed to saved video
+				</a>
+			</div>
+		</div>
+		<footer class="w-full static text-center fixed bottom-0 pb-2">
+			Copyright 2024. Team Infinity All rights reserved.
+		</footer>
+	</body>
+</html>
