@@ -91,8 +91,8 @@ class recognition:
         batchSize = self.action_recognizer.input_length
         batchShape = [batchSize] + [700, 580, 3]
         batchBufferSize = int(np.prod(batchShape))
-        slowBath = Array("B", batchBufferSize, lock=True)
-        buffer = np.frombuffer(slowBath.get_obj(), dtype=np.uint8)
+        slowBatch = Array("B", batchBufferSize, lock=True)
+        buffer = np.frombuffer(slowBatch.get_obj(), dtype=np.uint8)
         self.batch = np.copy(buffer.reshape(batchShape))
 
     def process_frame(self, frame, language):
@@ -142,7 +142,6 @@ class recognition:
                 self.batch, cur_det[0].roi.reshape(-1)
             )
 
-            action_class_label = None
             if recognizer_result is not None:
                 action_class_id = np.argmax(recognizer_result)
                 action_class_label = (
@@ -151,6 +150,12 @@ class recognition:
                     else action_class_id
                 )
 
-                # action_class_score = np.max(recognizer_result)
-                # if action_class_score > 0.7:  # action_threshold
-        return frame, action_class_label
+                action_class_score = np.max(recognizer_result)
+                print(action_class_label, action_class_score)
+
+                if action_class_score > 0.5:  # action_threshold
+                    return frame, action_class_label
+                else:
+                    return frame, None
+
+            return frame, None
