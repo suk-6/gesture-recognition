@@ -34,7 +34,7 @@ def webcamAPI():
     img = imageToCV2(base64ToImage(request.data))
     try:
         frame, label = model.process_frame(img, language)
-        saveImage(frame, "test.jpg")
+        # saveImage(frame, "test.jpg")
         if label is not None:
             return jsonify({"success": True, "label": label})
         return jsonify({"success": False})
