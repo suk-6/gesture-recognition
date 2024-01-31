@@ -15,7 +15,7 @@
 			class="flex flex-col h-screen bg-white justify-center items-center"
 		>
 			<h1 class="text-4xl font-bold mb-10">
-				Text to speech for the hearing impaired
+				청각 장애인을 위한 텍스트 음성 변환
 			</h1>
 			<div class="flex gap-4">
 				<select
@@ -23,20 +23,20 @@
 					name="language"
 					class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 				>
-					<option value="english" selected>English</option>
-					<option value="korean">한국어</option>
+					<option value="english">English</option>
+					<option value="korean" selected>한국어</option>
 				</select>
 				<a
 					class="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
-					href="/webcam?lang=en"
+					href="/webcam?lang=ko"
 				>
-					Proceed to webcam
+					웹캠으로 진행
 				</a>
 				<a
 					class="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
-					href="/saved?lang=en"
+					href="/saved?lang=ko"
 				>
-					Proceed to saved video
+					저장된 비디오로 진행
 				</a>
 			</div>
 		</div>

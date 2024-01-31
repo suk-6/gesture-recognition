@@ -95,7 +95,7 @@ class recognition:
         buffer = np.frombuffer(slowBath.get_obj(), dtype=np.uint8)
         self.batch = np.copy(buffer.reshape(batchShape))
 
-    def process_frame(self, frame):
+    def process_frame(self, frame, language):
         active_object_id = -1
         tracker_labels_map = {}
 

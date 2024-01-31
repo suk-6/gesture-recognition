@@ -1,6 +1,7 @@
 let videoElement = null;
 let sendInterval = null;
 let size = { width: 580, height: 700 };
+let language = window.location.search.split('=')[1];
 
 window.onload = () => {
     startCamera();
@@ -51,7 +52,7 @@ const sendFrame = () => {
     context.drawImage(videoElement, 0, 0, size.width, size.height);
 
     let base64Canvas = canvas.toDataURL("image/jpeg").split(';base64,')[1];
-    fetch('/api/webcam', {
+    fetch(`/api/webcam?lang=${language}`, {
         method: 'POST',
         body: base64Canvas
     }).then((response) => {

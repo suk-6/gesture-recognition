@@ -12,6 +12,11 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/ko")
+def indexKorean():
+    return render_template("index-korean.html")
+
+
 @app.route("/webcam")
 def render_webcam():
     return render_template("webcam.html")
@@ -25,9 +30,10 @@ def render_saved():
 # API Routes
 @app.route("/api/webcam", methods=["POST"])
 def webcamAPI():
+    language = request.args.get("lang")
     img = imageToCV2(base64ToImage(request.data))
     try:
-        frame, label = model.process_frame(img)
+        frame, label = model.process_frame(img, language)
         saveImage(frame, "test.jpg")
         if label is not None:
             return jsonify({"success": True, "label": label})
