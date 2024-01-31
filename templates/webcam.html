@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link
+			href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+	</head>
+	<body>
+		<div class="flex w-full h-screen bg-white">
+			<div
+				class="flex flex-col items-center justify-center w-1/2 h-full p-4"
+			>
+				<div
+					class="w-[580px] h-[700px] rounded-md border-4 border-black"
+				>
+					<video
+						id="video"
+						playsinline
+						autoplay
+						alt="Webcam video stream"
+					></video>
+				</div>
+				<div class="flex gap-4 mt-4">
+					<button
+						class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 bg-green-500"
+						onclick="startCamera()"
+					>
+						Start
+					</button>
+					<button
+						class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 bg-red-500"
+						onclick="stopCamera()"
+					>
+						Stop
+					</button>
+				</div>
+			</div>
+			<div class="w-1/2 h-full p-4">
+				<p>Server Response</p>
+				<div
+					class="flex data-[panel-group-direction=vertical]:flex-col w-full h-full rounded-md"
+					data-panel-group=""
+					data-panel-group-direction="vertical"
+					data-panel-group-id=":rr:"
+					style="
+						display: flex;
+						flex-direction: column;
+						height: 100%;
+						overflow: hidden;
+						width: 100%;
+					"
+				>
+					<div
+						class=""
+						data-panel=""
+						data-panel-id=":rs:"
+						data-panel-group-id=":rr:"
+						style="flex: 100 1 0px; overflow: hidden"
+					>
+						<div
+							dir="ltr"
+							class="relative overflow-hidden h-5/6 w-full rounded-md border"
+							style="
+								position: relative;
+								--radix-scroll-area-corner-width: 0px;
+								--radix-scroll-area-corner-height: 0px;
+							"
+						>
+							<style>
+								[data-radix-scroll-area-viewport] {
+									scrollbar-width: none;
+									-ms-overflow-style: none;
+									-webkit-overflow-scrolling: touch;
+								}
+								[data-radix-scroll-area-viewport]::-webkit-scrollbar {
+									display: none;
+								}
+							</style>
+							<div
+								data-radix-scroll-area-viewport=""
+								class="h-full w-full rounded-[inherit]"
+								style="overflow: hidden"
+							>
+								<div style="min-width: 100%; display: table">
+									<div class="p-4 text-sm">
+										<p
+											class="mt-4 leading-7"
+											id="textbox"
+										></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,6 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+from image import *
+from processing import *
+from recognition import recognition
 
 app = Flask(__name__)
+model = recognition()
 
 
 @app.route("/")
@@ -16,6 +20,20 @@ def render_webcam():
 @app.route("/saved")
 def render_saved():
     return render_template("saved.html")
+
+
+# API Routes
+@app.route("/api/webcam", methods=["POST"])
+def webcamAPI():
+    img = imageToCV2(base64ToImage(request.data))
+    try:
+        frame, label = model.process_frame(img)
+        saveImage(frame, "test.jpg")
+        if label is not None:
+            return jsonify({"success": True, "label": label})
+        return jsonify({"success": False})
+    except:
+        return jsonify({"success": False})
 
 
 # @app.route('/api/analyze', methods=['POST'])

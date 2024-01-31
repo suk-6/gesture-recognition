@@ -17,7 +17,7 @@
 import cv2
 import numpy as np
 
-from gesture_recognition_demo.common import IEModel
+from utils.common import IEModel
 
 
 class ActionRecognizer(IEModel):
