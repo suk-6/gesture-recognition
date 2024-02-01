@@ -88,20 +88,72 @@ class recognition:
             person_detector, TRACKER_SCORE_THRESHOLD, TRACKER_IOU_THRESHOLD
         )
 
-        batchSize = self.action_recognizer.input_length
-        batchShape = [batchSize] + [700, 580, 3]
-        batchBufferSize = int(np.prod(batchShape))
-        slowBatch = Array("B", batchBufferSize, lock=True)
-        buffer = np.frombuffer(slowBatch.get_obj(), dtype=np.uint8)
-        self.batch = np.copy(buffer.reshape(batchShape))
+        self.imageShape = [700, 580, 3]
+        self.frameBuffer = []
 
-    def process_frame(self, frame, language):
+    def getBatch(self, source):
+        batchShape = [self.action_recognizer.input_length] + self.imageShape
+        batchBufferSize = int(np.prod(batchShape))
+
+        outBatch = Array("B", batchBufferSize, lock=True)
+        frame = Array("B", int(np.prod(self.imageShape)), lock=True)
+        # slowframe = Array("B", int(np.prod(self.imageShape)), lock=True)
+
+        with frame.get_lock():
+            buffer = np.frombuffer(frame.get_obj(), dtype=np.uint8)
+            np.copyto(buffer.reshape(self.imageShape), source)
+
+        with frame.get_lock():
+            inFrameBuffer = np.frombuffer(frame.get_obj(), dtype=np.uint8)
+            frame = np.copy(inFrameBuffer.reshape(self.imageShape))
+
+        # with slowframe.get_lock():
+        #     outFrameBuffer = np.frombuffer(slowframe.get_obj(), dtype=np.uint8)
+        #     np.copyto(outFrameBuffer.reshape(self.imageShape), frame)
+
+        self.frameBuffer.append(frame)
+        if len(self.frameBuffer) > self.action_recognizer.input_length:
+            self.frameBuffer = self.frameBuffer[-self.action_recognizer.input_length :]
+
+        try:
+            self.saveImageBuffer()
+        except:
+            pass
+
+        if len(self.frameBuffer) == self.action_recognizer.input_length:
+            with outBatch.get_lock():
+                outBatchBuffer = np.frombuffer(outBatch.get_obj(), dtype=np.uint8)
+                np.copyto(outBatchBuffer.reshape(batchShape), self.frameBuffer)
+                return np.copy(outBatchBuffer.reshape(batchShape))
+        else:
+            return None
+
+    def saveImageBuffer(self):
+        grid = np.zeros((700 * 4, 580 * 4, 3), dtype=np.uint8)
+
+        for i in range(4):
+            for j in range(4):
+                image = self.frameBuffer[i * 4 + j]
+                grid[
+                    i * 700 : (i + 1) * 700,
+                    j * 580 : (j + 1) * 580,
+                ] = image
+
+        cv2.imwrite("test.jpg", grid)
+
+    def process_frame(self, source, language):
         active_object_id = -1
         tracker_labels_map = {}
         action_class_label = None
+        scoreExists = False
+
+        batch = self.getBatch(source)
+
+        if batch is None:
+            return None
 
         detections, tracker_labels_map = self.person_tracker.add_frame(
-            frame, len(OBJECT_IDS), tracker_labels_map
+            source, len(OBJECT_IDS), tracker_labels_map
         )
         if detections is None:
             active_object_id = -1
@@ -116,7 +168,7 @@ class recognition:
                 return None
 
             recognizer_result = self.action_recognizer(
-                self.batch, cur_det[0].roi.reshape(-1)
+                batch, cur_det[0].roi.reshape(-1)
             )
 
             if recognizer_result is not None:
@@ -128,12 +180,12 @@ class recognition:
                 )
 
                 action_class_score = np.max(recognizer_result)
-                print(action_class_label, action_class_score)
 
-                # if action_class_score > 0.5:  # action_threshold
-                #     return frame, action_class_label
-                # else:
-                #     return frame, None
+                if action_class_score > 0.3:  # action_threshold
+                    print(action_class_label, action_class_score)
+                    scoreExists = True
+                else:
+                    return None
 
         if detections is not None:
             for det in detections:
@@ -143,14 +195,14 @@ class recognition:
                 border_width = 2 if active_object_id == det.id else 1
                 person_roi = det.roi[0]
                 cv2.rectangle(
-                    frame,
+                    source,
                     (person_roi[0], person_roi[1]),
                     (person_roi[2], person_roi[3]),
                     roi_color,
                     border_width,
                 )
                 cv2.putText(
-                    frame,
+                    source,
                     str(det.id),
                     (person_roi[0] + 10, person_roi[1] + 20),
                     cv2.FONT_HERSHEY_SIMPLEX,
@@ -159,4 +211,7 @@ class recognition:
                     2,
                 )
 
-        return frame, action_class_label
+        if scoreExists:
+            return {"frame": source, "label": action_class_label}
+
+        return None
