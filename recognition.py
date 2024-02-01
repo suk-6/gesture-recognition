@@ -98,6 +98,7 @@ class recognition:
     def process_frame(self, frame, language):
         active_object_id = -1
         tracker_labels_map = {}
+        action_class_label = None
 
         detections, tracker_labels_map = self.person_tracker.add_frame(
             frame, len(OBJECT_IDS), tracker_labels_map
@@ -114,30 +115,6 @@ class recognition:
                 active_object_id = -1
                 return None
 
-            if detections is not None:
-                for det in detections:
-                    roi_color = (
-                        (0, 255, 0) if active_object_id == det.id else (128, 128, 128)
-                    )
-                    border_width = 2 if active_object_id == det.id else 1
-                    person_roi = det.roi[0]
-                    cv2.rectangle(
-                        frame,
-                        (person_roi[0], person_roi[1]),
-                        (person_roi[2], person_roi[3]),
-                        roi_color,
-                        border_width,
-                    )
-                    cv2.putText(
-                        frame,
-                        str(det.id),
-                        (person_roi[0] + 10, person_roi[1] + 20),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.8,
-                        roi_color,
-                        2,
-                    )
-
             recognizer_result = self.action_recognizer(
                 self.batch, cur_det[0].roi.reshape(-1)
             )
@@ -153,9 +130,33 @@ class recognition:
                 action_class_score = np.max(recognizer_result)
                 print(action_class_label, action_class_score)
 
-                if action_class_score > 0.5:  # action_threshold
-                    return frame, action_class_label
-                else:
-                    return frame, None
+                # if action_class_score > 0.5:  # action_threshold
+                #     return frame, action_class_label
+                # else:
+                #     return frame, None
 
-            return frame, None
+        if detections is not None:
+            for det in detections:
+                roi_color = (
+                    (0, 255, 0) if active_object_id == det.id else (128, 128, 128)
+                )
+                border_width = 2 if active_object_id == det.id else 1
+                person_roi = det.roi[0]
+                cv2.rectangle(
+                    frame,
+                    (person_roi[0], person_roi[1]),
+                    (person_roi[2], person_roi[3]),
+                    roi_color,
+                    border_width,
+                )
+                cv2.putText(
+                    frame,
+                    str(det.id),
+                    (person_roi[0] + 10, person_roi[1] + 20),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.8,
+                    roi_color,
+                    2,
+                )
+
+        return frame, action_class_label

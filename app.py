@@ -35,8 +35,9 @@ def webcamAPI():
     try:
         frame, label = model.process_frame(img, language)
         # saveImage(frame, "test.jpg")
-        if label is not None:
-            return jsonify({"success": True, "label": label})
+        if frame is not None:
+            if label is not None:
+                return jsonify({"success": True, "label": label})
         return jsonify({"success": False})
     except:
         return jsonify({"success": False})
