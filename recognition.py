@@ -181,14 +181,17 @@ class recognition:
 
                 action_class_score = np.max(recognizer_result)
 
-                if action_class_score > 0.3:  # action_threshold
+                if action_class_score > 0.4:  # action_threshold
                     print(action_class_label, action_class_score)
                     scoreExists = True
-                else:
-                    return None
+
+        person_pos = None
 
         if detections is not None:
             for det in detections:
+                if det.id == active_object_id:
+                    person_pos = det.roi[0]
+
                 roi_color = (
                     (0, 255, 0) if active_object_id == det.id else (128, 128, 128)
                 )
@@ -212,6 +215,26 @@ class recognition:
                 )
 
         if scoreExists:
-            return {"frame": source, "label": action_class_label}
+            return {
+                "frame": source,
+                "label": action_class_label,
+                "pos": [
+                    str(person_pos[0]),
+                    str(person_pos[1]),
+                    str(person_pos[2]),
+                    str(person_pos[3]),
+                ],
+            }
+        else:
+            return {
+                "frame": source,
+                "label": None,
+                "pos": [
+                    str(person_pos[0]),
+                    str(person_pos[1]),
+                    str(person_pos[2]),
+                    str(person_pos[3]),
+                ],
+            }
 
         return None

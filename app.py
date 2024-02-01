@@ -32,15 +32,18 @@ def render_saved():
 def webcamAPI():
     language = request.args.get("lang")
     img = imageToCV2(base64ToImage(request.data))
-    # try:
-    result = model.process_frame(img, language)
-    if result is not None:
-        # saveImage(result["frame"], "test.jpg")
-        if result["label"] is not None:
-            return jsonify({"success": True, "label": result["label"]})
-    # except Exception as e:
-    #     print(e)
-    #     pass
+    try:
+        result = model.process_frame(img, language)
+        if result is not None:
+            # saveImage(result["frame"], "test.jpg")
+            if result["label"] is not None:
+                return jsonify(
+                    {"success": True, "label": result["label"], "pos": result["pos"]}
+                )
+            elif result["pos"] is None:
+                return jsonify({"success": True, "label": None, "pos": result["pos"]})
+    except Exception as e:
+        pass
 
     return jsonify({"success": False})
 

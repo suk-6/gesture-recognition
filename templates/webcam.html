@@ -13,20 +13,63 @@
 				class="flex flex-col items-center justify-center w-1/2 h-full p-4"
 			>
 				<div
-					class="w-[580px] h-[700px] rounded-md border-4 border-black"
-				>
-					<video
-						id="video"
-						playsinline
-						autoplay
-						alt="Webcam video stream"
-					></video>
-				</div>
+					class="rounded-md border-4 border-black"
+					id="viewElement"
+				></div>
 				<div class="flex gap-4 mt-4">
 					<button
 						class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 bg-green-500"
 						onclick="startCamera()"
 					>
+						<video
+							id="video"
+							playsinline
+							autoplay
+							alt="Webcam video stream"
+							style="display: none"
+						></video>
+						<video
+							id="video"
+							playsinline
+							autoplay
+							alt="Webcam video stream"
+							style="display: none"
+						></video>
+						<video
+							id="video"
+							playsinline
+							autoplay
+							alt="Webcam video stream"
+							style="display: none"
+						></video>
+						<video
+							id="video"
+							playsinline
+							autoplay
+							alt="Webcam video stream"
+							style="display: none"
+						></video>
+						<video
+							id="video"
+							playsinline
+							autoplay
+							alt="Webcam video stream"
+							style="display: none"
+						></video>
+						<video
+							id="video"
+							playsinline
+							autoplay
+							alt="Webcam video stream"
+							style="display: none"
+						></video>
+						<video
+							id="video"
+							playsinline
+							autoplay
+							alt="Webcam video stream"
+							style="display: none"
+						></video>
 						Start
 					</button>
 					<button
@@ -86,7 +129,7 @@
 								<div style="min-width: 100%; display: table">
 									<div class="p-4 text-sm">
 										<p
-											class="mt-4 leading-7"
+											class="mt-4 leading-7 text-xl"
 											id="textbox"
 										></p>
 									</div>
@@ -97,5 +140,12 @@
 				</div>
 			</div>
 		</div>
+		<video
+			id="video"
+			playsinline
+			autoplay
+			alt="Webcam video stream"
+			style="display: none"
+		></video>
 	</body>
 </html>
