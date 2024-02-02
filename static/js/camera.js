@@ -81,6 +81,8 @@ const sendFrame = () => {
 
 const appendResult = (label) => {
     let textbox = document.getElementById('original');
+    if (textbox.textContent.split(' ').slice(-1)[0] === label) return;
+
     textbox.textContent = textbox.textContent + ' ' + label;
 
     translate();
