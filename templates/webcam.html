@@ -9,6 +9,23 @@
 	</head>
 	<body>
 		<div class="flex w-full h-screen bg-white">
+			<div class="relative overflow-x-auto">
+				<table
+					class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+				>
+					<thead
+						class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+					>
+						<tr>
+							<th scope="col" class="px-6 py-3">
+								List of supported ASL
+							</th>
+							<th scope="col" class="px-6 py-3"></th>
+						</tr>
+					</thead>
+					<tbody id="aslTableBody"></tbody>
+				</table>
+			</div>
 			<div
 				class="flex flex-col items-center justify-center w-1/2 h-full p-4"
 			>
@@ -21,55 +38,6 @@
 						class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 bg-green-500"
 						onclick="startCamera()"
 					>
-						<video
-							id="video"
-							playsinline
-							autoplay
-							alt="Webcam video stream"
-							style="display: none"
-						></video>
-						<video
-							id="video"
-							playsinline
-							autoplay
-							alt="Webcam video stream"
-							style="display: none"
-						></video>
-						<video
-							id="video"
-							playsinline
-							autoplay
-							alt="Webcam video stream"
-							style="display: none"
-						></video>
-						<video
-							id="video"
-							playsinline
-							autoplay
-							alt="Webcam video stream"
-							style="display: none"
-						></video>
-						<video
-							id="video"
-							playsinline
-							autoplay
-							alt="Webcam video stream"
-							style="display: none"
-						></video>
-						<video
-							id="video"
-							playsinline
-							autoplay
-							alt="Webcam video stream"
-							style="display: none"
-						></video>
-						<video
-							id="video"
-							playsinline
-							autoplay
-							alt="Webcam video stream"
-							style="display: none"
-						></video>
 						Start
 					</button>
 					<button
@@ -81,7 +49,7 @@
 				</div>
 			</div>
 			<div class="w-1/2 h-full p-4">
-				<p>Server Response</p>
+				<p class="text-center text-xl">Server Response</p>
 				<div
 					class="flex data-[panel-group-direction=vertical]:flex-col w-full h-full rounded-md"
 					data-panel-group=""
@@ -95,6 +63,7 @@
 						width: 100%;
 					"
 				>
+					<p>English</p>
 					<div
 						class=""
 						data-panel=""
@@ -130,7 +99,57 @@
 									<div class="p-4 text-sm">
 										<p
 											class="mt-4 leading-7 text-xl"
-											id="textbox"
+											id="original"
+										></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p>Translated</p>
+					<select
+						id="languageSetting"
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-1"
+					>
+						<option value="EN" selected>English</option>
+						<option value="KO">한국어</option>
+					</select>
+					<div
+						class=""
+						data-panel=""
+						data-panel-id=":rs:"
+						data-panel-group-id=":rr:"
+						style="flex: 100 1 0px; overflow: hidden"
+					>
+						<div
+							dir="ltr"
+							class="relative overflow-hidden h-5/6 w-full rounded-md border"
+							style="
+								position: relative;
+								--radix-scroll-area-corner-width: 0px;
+								--radix-scroll-area-corner-height: 0px;
+							"
+						>
+							<style>
+								[data-radix-scroll-area-viewport] {
+									scrollbar-width: none;
+									-ms-overflow-style: none;
+									-webkit-overflow-scrolling: touch;
+								}
+								[data-radix-scroll-area-viewport]::-webkit-scrollbar {
+									display: none;
+								}
+							</style>
+							<div
+								data-radix-scroll-area-viewport=""
+								class="h-full w-full rounded-[inherit]"
+								style="overflow: hidden"
+							>
+								<div style="min-width: 100%; display: table">
+									<div class="p-4 text-sm">
+										<p
+											class="mt-4 leading-7 text-xl"
+											id="translated"
 										></p>
 									</div>
 								</div>

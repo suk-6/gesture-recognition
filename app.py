@@ -1,10 +1,18 @@
+import os
+import requests
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+
 from image import *
 from processing import *
 from recognition import recognition
 
 app = Flask(__name__)
 model = recognition()
+
+load_dotenv()
+DEEPL_KEY = os.getenv("DEEPL_KEY")
+DEEPL_API = "https://api-free.deepl.com"
 
 
 @app.route("/")
@@ -40,7 +48,7 @@ def webcamAPI():
                 return jsonify(
                     {"success": True, "label": result["label"], "pos": result["pos"]}
                 )
-            elif result["pos"] is None:
+            elif result["pos"] is not None:
                 return jsonify({"success": True, "label": None, "pos": result["pos"]})
     except Exception as e:
         pass
@@ -48,8 +56,27 @@ def webcamAPI():
     return jsonify({"success": False})
 
 
-# @app.route('/api/analyze', methods=['POST'])
-# def analyze():
+@app.route("/api/translate")
+def translateAPI():
+    text = request.args.get("text")
+    language = request.args.get("lang")
+
+    req = requests.post(
+        f"{DEEPL_API}/v2/translate",
+        headers={"Authorization": f"DeepL-Auth-Key {DEEPL_KEY}"},
+        data={
+            "text": text,
+            "target_lang": language,
+        },
+    )
+
+    print(req.json())
+
+    if req.status_code == 200:
+        translated = req.json()["translations"][0]["text"]
+        return jsonify({"success": True, "translation": translated})
+
+    return jsonify({"success": False})
 
 
 if __name__ == "__main__":

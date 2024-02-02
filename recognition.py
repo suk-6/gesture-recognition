@@ -181,8 +181,8 @@ class recognition:
 
                 action_class_score = np.max(recognizer_result)
 
-                if action_class_score > 0.4:  # action_threshold
-                    print(action_class_label, action_class_score)
+                print(action_class_label, action_class_score)
+                if action_class_score > 0.7:  # action_threshold
                     scoreExists = True
 
         person_pos = None
@@ -236,5 +236,3 @@ class recognition:
                     str(person_pos[3]),
                 ],
             }
-
-        return None
