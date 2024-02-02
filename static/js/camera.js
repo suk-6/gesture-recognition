@@ -163,3 +163,15 @@ const showASL = () => {
         aslTableBody.appendChild(tr);
     });
 }
+
+const tts = () => {
+    let text = document.getElementById('translated').textContent;
+    if (text === '') return;
+
+    let selected = document.getElementById('languageSetting');
+    let language = selected.options[selected.selectedIndex].value;
+
+    fetch(`/api/tts?text=${text}&lang=${language}`, {
+        method: 'GET'
+    })
+};

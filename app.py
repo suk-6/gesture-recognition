@@ -1,5 +1,6 @@
 import os
 import requests
+from gtts import gTTS
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 
@@ -77,6 +78,19 @@ def translateAPI():
         return jsonify({"success": True, "translation": translated})
 
     return jsonify({"success": False})
+
+
+@app.route("/api/tts")
+def ttsAPI():
+    text = request.args.get("text")
+    lang = request.args.get("lang")
+
+    tts = gTTS(text=text, lang=lang.lower())
+    tts.save("tts.mp3")
+
+    os.system("mpg123 tts.mp3")
+
+    return "OK"
 
 
 if __name__ == "__main__":
