@@ -2,7 +2,7 @@ import os
 import requests
 from gtts import gTTS
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, jsonify
 
 from image import *
 from processing import *
