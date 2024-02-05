@@ -49,6 +49,7 @@ def webcamAPI():
                 return jsonify(
                     {"success": True, "label": result["label"], "pos": result["pos"]}
                 )
+                
             elif result["pos"] is not None:
                 return jsonify({"success": True, "label": None, "pos": result["pos"]})
     except Exception as e:
