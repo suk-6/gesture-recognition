@@ -1,12 +1,7 @@
-import logging as log
-import sys
-from time import perf_counter
 import json
 import os
 import os.path as osp
-from pathlib import Path
-import multiprocessing
-from multiprocessing import Process, Value, Array
+from multiprocessing import Array
 
 import cv2
 import numpy as np

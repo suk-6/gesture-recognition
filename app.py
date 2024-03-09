@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
 
 from image import *
-from processing import *
 from recognition import recognition
 
 app = Flask(__name__)
@@ -49,7 +48,7 @@ def webcamAPI():
                 return jsonify(
                     {"success": True, "label": result["label"], "pos": result["pos"]}
                 )
-                
+
             elif result["pos"] is not None:
                 return jsonify({"success": True, "label": None, "pos": result["pos"]})
     except Exception as e:
