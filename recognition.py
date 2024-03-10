@@ -92,7 +92,6 @@ class recognition:
 
         outBatch = Array("B", batchBufferSize, lock=True)
         frame = Array("B", int(np.prod(self.imageShape)), lock=True)
-        # slowframe = Array("B", int(np.prod(self.imageShape)), lock=True)
 
         with frame.get_lock():
             buffer = np.frombuffer(frame.get_obj(), dtype=np.uint8)
@@ -101,10 +100,6 @@ class recognition:
         with frame.get_lock():
             inFrameBuffer = np.frombuffer(frame.get_obj(), dtype=np.uint8)
             frame = np.copy(inFrameBuffer.reshape(self.imageShape))
-
-        # with slowframe.get_lock():
-        #     outFrameBuffer = np.frombuffer(slowframe.get_obj(), dtype=np.uint8)
-        #     np.copyto(outFrameBuffer.reshape(self.imageShape), frame)
 
         self.frameBuffer.append(frame)
         if len(self.frameBuffer) > self.action_recognizer.input_length:
